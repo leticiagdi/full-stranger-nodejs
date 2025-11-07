@@ -1,37 +1,29 @@
-# 🔬 Laboratório de Hawkins - Sistema de Controle de Sujeitos
+# 🔬 Laboratório de Hawkins - Sistema Full Stack
 
-Um sistema de cadastro e gerenciamento de sujeitos de experimentos telecinéticos, inspirado no universo de **Stranger Things**.
+Um sistema completo de cadastro e gerenciamento de sujeitos de experimentos telecinéticos, inspirado no universo de **Stranger Things**. Projeto didático demonstrando integração **React + Node.js + MongoDB**.
 
 ## 📋 Sobre o Projeto
 
-Este projeto simula o sistema interno do Laboratório de Hawkins para registro e monitoramento de sujeitos com habilidades psíquicas especiais. Desenvolvido em React com uma interface dark mode e efeitos visuais que remetem aos anos 80.
-
-## ✨ Funcionalidades
-
-- 📝 **Cadastro de Sujeitos** com validação de ID-Experimento único
-- 🔢 **IDs de Experimento** no formato numérico (001, 011, 008...)
-- 🎯 **Classificação de Poderes** em diferentes classes telecinéticas
-- 🚨 **Status de Monitoramento** com destaque visual para situações críticas
-- 🗑️ **Exclusão de Registros** com confirmação de segurança
-- 🌙 **Interface Dark Mode** com tema científico
-
-## 🎨 Características Visuais
-
-- **Tema Dark**: Interface escura para ambiente de laboratório
-- **Efeitos de Glitch**: Animação no título principal
-- **Status Críticos**: Cores vermelhas para "Em Coma" e "Fuga"
-- **Design Científico**: Ícones e tipografia que remetem a documentos governamentais
+Este projeto demonstra a criação de uma aplicação full stack com:
+- **Frontend**: React com interface temática
+- **Backend**: Node.js + Express + MongoDB
+- **Banco de Dados**: MongoDB Atlas (nuvem)
 
 ## 🛠️ Tecnologias Utilizadas
 
+### Frontend
 - **React** 19.2.0
 - **Bootstrap** 5.3.3 (CDN)
 - **CSS3** com animações customizadas
 
+### Backend
+- **Node.js** com Express 5.1.0
+- **MongoDB** 7.0.0 + **Mongoose** 8.19.3
+- **dotenv** para variáveis de ambiente
+
 ## 🚀 Como Executar
 
 ### Pré-requisitos
-
 - Node.js instalado
 - npm ou yarn
 
@@ -39,8 +31,8 @@ Este projeto simula o sistema interno do Laboratório de Hawkins para registro e
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/MellMatsuda/TEPIII-Aula-React.git
-cd TEPIII-Aula-React
+git clone https://github.com/leticiagdi/stranger-nodejs.git
+cd stranger-nodejs
 ```
 
 2. Instale as dependências:
@@ -48,79 +40,109 @@ cd TEPIII-Aula-React
 npm install
 ```
 
-3. Execute o projeto:
+3. Execute o projeto (2 terminais):
+
+**Terminal 1 - Backend:**
+```bash
+npm run server
+```
+
+**Terminal 2 - Frontend:**
 ```bash
 npm start
 ```
 
-4. Abra [http://localhost:3000](http://localhost:3000) no navegador
+4. Acesse:
+- **Frontend**: [http://localhost:3000](http://localhost:3000)
+- **Backend**: [http://localhost:5000](http://localhost:5000)
+- **Health Check**: [http://localhost:5000/health](http://localhost:5000/health)
 
-## 📊 Estrutura de Dados
+## �️ Estrutura do Backend
 
-### Sujeito
-```javascript
+```
+src/server/
+├── models/
+│   └── sujeito.js          # Schema MongoDB
+├── routes/
+│   └── sujeitos.js         # Rotas CRUD
+└── index.js                # Servidor Express
+```
+
+## 📊 API Endpoints
+
+### 📝 **POST** `/api/sujeitos`
+Criar novo sujeito
+```json
 {
-  id: number,
-  nome: string,
-  idExperimento: string,
-  nascimento: date,
-  classificacao: string,
-  status: string
+  "nomeCompleto": "Jane Hopper",
+  "idExperimento": "011",
+  "dataNascimento": "1971-01-01",
+  "classeTelecinetica": "Classe IV - Poder Psíquico Extremo", 
+  "estadoAtual": "Liberado"
 }
 ```
 
-### Classificações Disponíveis
-- Classe I - Telecinese Básica
-- Classe II - Telecinese Avançada  
-- Classe III - Poderes Múltiplos
-- Classe IV - Poder Psíquico Extremo
-- Sem Habilidades
-- Classificação Pendente
+### 📋 **GET** `/api/sujeitos`
+Listar todos os sujeitos (ordenados por data de criação)
 
-### Status de Monitoramento
-- Em Isolamento
-- Sob Teste
-- Treinamento Telecinético
-- Observação
-- Fuga ⚠️
-- Em Coma ⚠️
-- Liberado
+### 🗑️ **DELETE** `/api/sujeitos/:id`
+Remover sujeito por ID
 
-## 📁 Estrutura do Projeto
+### 💚 **GET** `/health`
+Status do servidor e conexão com banco
 
-```
-src/
-├── components/
-│   ├── Header.js      # Cabeçalho com título e ícone
-│   ├── Footer.js      # Rodapé com informações classificadas
-│   ├── Input.js       # Componente de input reutilizável
-│   ├── Select.js      # Componente de select reutilizável
-│   └── Sujeito.js     # Componente de linha da tabela
-├── App.js             # Componente principal
-├── index.css          # Estilos globais e efeitos
-└── index.js           # Ponto de entrada
+## 🏗️ Schema do Banco (MongoDB)
+
+```javascript
+const SujeitoSchema = new mongoose.Schema({
+ nomeCompleto: { type: String, required: true },
+ idExperimento: { type: String, required: true, unique: true },
+ dataNascimento: { type: Date, required: true },
+ classeTelecinetica: { type: String, required: true },
+ estadoAtual: { type: String, required: true }
+}, { timestamps: true });
 ```
 
-## 🎯 Scripts Disponíveis
+## ⚙️ Configuração do Banco
 
-### `npm start`
-Executa a aplicação em modo de desenvolvimento.
-Abra [http://localhost:3000](http://localhost:3000) para visualizar no navegador.
+O projeto está configurado para usar **MongoDB Atlas** (nuvem). A string de conexão está no arquivo `.env`:
 
+```env
+DB_URL=mongodb+srv://user:Leticia123@clusterleticia.5r40kxt.mongodb.net/chatapp?retryWrites=true&w=majority
+PORT=5000
+```
 
-### `npm run build`
-Compila a aplicação para produção na pasta `build`.
+> **📌 Nota**: Em projetos reais, **nunca** publique credenciais no GitHub. Este é apenas um banco de demonstração educacional.
 
-## 🎨 Customizações Implementadas
+## 🔧 Scripts Disponíveis
 
-- ✅ Mudança de "Paciente" para "Sujeito"
-- ✅ Substituição de "CPF" por "ID-Experimento"  
-- ✅ Classificações de poderes telecinéticos
-- ✅ Status relacionados ao universo Stranger Things
-- ✅ Efeitos visuais de laboratório científico
-- ✅ Tema dark completo
-- ✅ Validações e alertas personalizados
+- `npm start` - Inicia o frontend React
+- `npm run server` - Inicia o backend Node.js  
+- `npm run dev` - Inicia ambos simultaneamente (concurrently)
+- `npm run build` - Build de produção do React
 
+## 📚 Conceitos Demonstrados
+
+### Backend
+- ✅ **Servidor Express** com middlewares
+- ✅ **Conexão MongoDB** com Mongoose
+- ✅ **CRUD completo** (Create, Read, Delete)
+- ✅ **Validações** de dados obrigatórios
+- ✅ **Tratamento de erros** específicos
+- ✅ **Status HTTP** apropriados
+- ✅ **Variáveis de ambiente** (.env)
+
+### Frontend  
+- ✅ **Proxy** para comunicação com backend
+- ✅ **Fetch API** para requisições HTTP
+- ✅ **Estados React** (useState, useEffect)
+- ✅ **Componentização** reutilizável
+- ✅ **Tratamento de erros** de rede
+
+### Integração
+- ✅ **Comunicação Frontend ↔ Backend**
+- ✅ **Persistência de dados** no MongoDB
+- ✅ **Validação dupla** (frontend + backend)
 
 ## 🎭 Inspiração
 
@@ -128,5 +150,5 @@ Baseado no universo de **Stranger Things** (Netflix), especificamente no Laborat
 
 ---
 
-> **⚠️ CLASSIFICADO** - Este sistema é fictício e foi criado apenas para demonstração educacional.
+> **⚠️ CLASSIFICADO** - Este sistema é fictício e foi criado apenas para demonstração educacional de desenvolvimento full stack.
 
