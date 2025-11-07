@@ -108,7 +108,7 @@ const SujeitoSchema = new mongoose.Schema({
 O projeto está configurado para usar **MongoDB Atlas** (nuvem). A string de conexão está no arquivo `.env`:
 
 ```env
-DB_URL=mongodb+srv://user:Leticia123@clusterleticia.5r40kxt.mongodb.net/chatapp?retryWrites=true&w=majority
+DB_URL=
 PORT=5000
 ```
 
@@ -151,4 +151,5 @@ Baseado no universo de **Stranger Things** (Netflix), especificamente no Laborat
 ---
 
 > **⚠️ CLASSIFICADO** - Este sistema é fictício e foi criado apenas para demonstração educacional de desenvolvimento full stack.
+
 
